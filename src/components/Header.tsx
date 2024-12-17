@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { AppBar, Toolbar, InputAdornment, Box, Container, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Container, Grid, TextField, Typography } from '@mui/material';
 import { debounce } from 'lodash';
-import SearchIcon from '@mui/icons-material/Search';
 
 interface HeaderProps {
   onSearch: (query: string) => void;

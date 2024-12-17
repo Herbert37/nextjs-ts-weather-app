@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, Box, CardHeader, IconButton } from '@mui/material';
+import { Card, CardMedia, CardHeader, IconButton } from '@mui/material';
 import { useWeatherStore } from '../stores/weatherStore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -45,7 +45,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ city }) => {
         }
         action={
           <IconButton
-            color={isFavorite ? 'secondary' : ''}
+            color={isFavorite ? 'secondary' : 'primary'}
             onClick={handleFavoriteToggle}
           >
             {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
