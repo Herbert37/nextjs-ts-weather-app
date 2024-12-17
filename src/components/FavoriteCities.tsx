@@ -3,7 +3,7 @@ import { Typography, Grid, Paper } from '@mui/material';
 import { useWeatherStore } from '../stores/weatherStore';
 import WeatherCard from './WeatherCard';
 
-const FavoriteCities: React.FC = () => {
+const FavoriteCities = () => {
   const { favorites } = useWeatherStore();
 
   return (

@@ -6,7 +6,7 @@ interface HeaderProps {
   onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSearch }) => {
+const Header = ({ onSearch } : HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const debouncedSearch = useCallback(

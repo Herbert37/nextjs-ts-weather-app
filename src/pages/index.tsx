@@ -6,19 +6,8 @@ import FavoriteCities from '../components/FavoriteCities';
 import { searchCities, getRandomCities } from '../utils/api';
 import Menu from '../components/Menu';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
-interface City {
-  id: number;
-  name: string;
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  main: {
-    temp: number;
-  };
-}
+// types
+import type { City } from '../types/city';
 
 const Home: React.FC = () => {
   const [cities, setCities] = useState<City[]>([]);

@@ -1,22 +1,10 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-interface WeatherData {
-  id: number;
-  name: string;
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  main: {
-    temp: number;
-  };
-}
+import type { City } from '../types/city';
 
 interface WeatherStore {
-  favorites: WeatherData[];
-  addFavorite: (city: WeatherData) => void;
+  favorites: City[];
+  addFavorite: (city: City) => void;
   removeFavorite: (cityId: number) => void;
 }
 

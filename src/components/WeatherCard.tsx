@@ -3,23 +3,9 @@ import { Card, CardMedia, CardHeader, IconButton } from '@mui/material';
 import { useWeatherStore } from '../stores/weatherStore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import type { WeatherCard } from '../types/city';
 
-interface WeatherCardProps {
-  city: {
-    id: number;
-    name: string;
-    weather: {
-      main: string;
-      description: string;
-      icon: string;
-    }[];
-    main: {
-      temp: number;
-    };
-  };
-}
-
-const WeatherCard: React.FC<WeatherCardProps> = ({ city }) => {
+const WeatherCard = ({ city } : WeatherCard) => {
   const { favorites, addFavorite, removeFavorite } = useWeatherStore();
 
   const isFavorite = favorites.some((fav) => fav.id === city.id);
