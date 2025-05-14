@@ -38,10 +38,10 @@ export default function Menu() {
     window.lmLogin?.({
       onSuccess: async () => {
         await getBalance();
-        await getMemberProfile();
       },
       onError: (error) => {
         alert('Login error.');
+        console.log({LoginError: error});
       }
     });
   }
@@ -50,18 +50,21 @@ export default function Menu() {
 
   async function getBalance() {
     try {
+      if (!window.lmFetchWrapper) throw new Error("lmFetchWrapper is not defined");
       const response = await window.lmFetchWrapper('lmBalance');
       if (response && response.ok) {
         const data = await response.json();
-        const lmSummary = data?.summarization?.find(item => item.type === 'LM');
+        const lmSummary = data?.summarization?.find((item: { type: string; amount?: number }) => item.type === 'LM');
         const balance = lmSummary?.amount || 0;
-        setBalance(balance.toLocaleString);
+        setBalance(balance.toLocaleString());
         setShowBalance(true);
+        setShowLogoutButton(true);
         setShowLoginButton(false);
       } else {
         handleLogin();
       }
-    } catch (err) {
+    } catch (error) {
+      console.log({ getBalanceError: error });
       handleLogin();
     }
   }
