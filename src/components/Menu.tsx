@@ -33,23 +33,24 @@ export default function Menu() {
       );
       return match ? decodeURIComponent(match[2]) : null;
     };
-  
-    const checkCookiesAndFetch = async () => {
-      const userInfo = getCookie("userinfo");
-      const accessToken = getCookie("access_token");
-  
-      if (userInfo && accessToken) {
+
+    if (typeof window === "undefined") return;
+    console.log("CallbackLoaded: esperando a lmFetchWrapper...");
+
+    const waitForLogin = setInterval(() => {
+      if (typeof window.lmFetchWrapper === "function" && getCookie("userinfo") && getCookie("access_token")) {
+        console.log("lmFetchWrapper detectado.");
         setShowLoginButton(false);
         setShowLogoutButton(true);
-        await getBalance();
+        clearInterval(waitForLogin);
+        getBalance();
       } else {
-        setShowLoginButton(true);
-        setShowLogoutButton(false);
-        setShowBalance(false);
+        console.log("lmFetchWrapper aún no disponible...");
       }
-    };
-  
-    checkCookiesAndFetch();
+    }, 100);
+
+    // Cleanup
+    return () => clearInterval(waitForLogin);
   }, []);
 
   const handleLogin = () => {
