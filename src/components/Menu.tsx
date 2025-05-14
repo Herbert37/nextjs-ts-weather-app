@@ -68,8 +68,8 @@ export default function Menu() {
 
   async function getBalance() {
     try {
-      if (!window.lmFetchWrapper) throw new Error("lmFetchWrapper is not defined");
-      const response = await window.lmFetchWrapper('lmBalance');
+      if (!window.fetchWrapper) throw new Error("fetchWrapper is not defined");
+      const response = await window.fetchWrapper('lmBalance');
       if (response && response.ok) {
         const data = await response.json();
         const lmSummary = data?.summarization?.find((item: { type: string; amount?: number }) => item.type === 'LM');

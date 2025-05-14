@@ -9,6 +9,6 @@ declare global {
     lmLogin?: (options: LoginOptions) => void;
     lmCompleteLogin?: () => void;
     lmLogout?: () => void;
-    lmFetchWrapper?: (wrapperID: string) => Promise<Response>;
+    fetchWrapper?: (wrapperID: string) => Promise<Response>;
   }
 }
