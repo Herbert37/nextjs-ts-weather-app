@@ -4,23 +4,21 @@ import { Container, Grid, Typography, Paper } from '@mui/material';
 const Callback: React.FC = () => {
 
   useEffect(() => {
-    document.addEventListener("DOMContentLoaded", function () {
-      const waitForLogin = setInterval(() => {
-        if (typeof window.lmCompleteLogin === "function") {
-          //if (window.__LM_DEBUG__) {
-          console.log(
-            "[callback.html] lmCompleteLogin detectado. Ejecutando..."
-          );
-          //}
-          window.lmCompleteLogin();
-          clearInterval(waitForLogin);
-        } else {
-          //if (window.__LM_DEBUG__) {
-          console.log("[callback.html] lmCompleteLogin aún no disponible...");
-          //}
-        }
-      }, 100);
-    });
+    if (typeof window === "undefined") return;
+    console.log("CallbackLoaded: esperando a lmCompleteLogin...");
+
+    const waitForLogin = setInterval(() => {
+      if (typeof window.lmCompleteLogin === "function") {
+        console.log("lmCompleteLogin detectado. Ejecutando...");
+        window.lmCompleteLogin();
+        clearInterval(waitForLogin);
+      } else {
+        console.log("lmCompleteLogin aún no disponible...");
+      }
+    }, 100);
+
+    // Cleanup
+    return () => clearInterval(waitForLogin);
   }, []);
 
   return (
