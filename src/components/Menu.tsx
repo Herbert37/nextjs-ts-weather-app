@@ -39,6 +39,8 @@ export default function Menu() {
       const accessToken = getCookie("access_token");
   
       if (userInfo && accessToken) {
+        setShowLoginButton(false);
+        setShowLogoutButton(true);
         await getBalance();
       } else {
         setShowLoginButton(true);
@@ -74,8 +76,6 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
-        setShowLogoutButton(true);
-        setShowLoginButton(false);
       } else {
         handleLogin();
       }
