@@ -27,11 +27,27 @@ export default function Menu() {
   }, []);
 
   useEffect(() => {
-    if (window && window.lmLogin) {
-      // Llama algo después de que el script esté listo
-      console.log('lmLogin está disponible');
-      setShowLoginButton(true);
-    }
+    const getCookie = (name: string): string | null => {
+      const match = document.cookie.match(
+        new RegExp("(^| )" + name + "=([^;]+)")
+      );
+      return match ? decodeURIComponent(match[2]) : null;
+    };
+  
+    const checkCookiesAndFetch = async () => {
+      const userInfo = getCookie("userinfo");
+      const accessToken = getCookie("access_token");
+  
+      if (userInfo && accessToken) {
+        await getBalance();
+      } else {
+        setShowLoginButton(true);
+        setShowLogoutButton(false);
+        setShowBalance(false);
+      }
+    };
+  
+    checkCookiesAndFetch();
   }, []);
 
   const handleLogin = () => {
