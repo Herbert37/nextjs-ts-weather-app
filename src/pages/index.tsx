@@ -13,27 +13,6 @@ const Home: React.FC = () => {
   const [cities, setCities] = useState<City[]>([]);
 
   useEffect(() => {
-    const script = document.createElement('script');
-    //script.src = 'https://s3-eu-west-1.amazonaws.com/lifemileswebsite-s3bucket-41/lm_cms/images/EON/LOGIN/lm-login.umd.js?env=uat';
-    script.src = '/lm-login.umd.js?env=uat';
-    script.async = true;
-
-    script.onload = () => {
-      console.log('Script cargado correctamente');
-    };
-
-    script.onerror = () => {
-      console.error('Error al cargar el script');
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
     fetchRandomCities();
   }, []);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,6 +17,27 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    //script.src = 'https://s3-eu-west-1.amazonaws.com/lifemileswebsite-s3bucket-41/lm_cms/images/EON/LOGIN/lm-login.umd.js?env=uat';
+    script.src = '/lm-login.umd.js?env=uat';
+    script.async = true;
+
+    script.onload = () => {
+      console.log('Script cargado correctamente');
+    };
+
+    script.onerror = () => {
+      console.error('Error al cargar el script');
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
