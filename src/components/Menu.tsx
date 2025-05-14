@@ -35,7 +35,7 @@ export default function Menu() {
     };
 
     if (typeof window === "undefined") return;
-    console.log("CallbackLoaded: esperando a lmFetchWrapper...");
+    console.log("Esperando a lmFetchWrapper...");
 
     const waitForLogin = setInterval(() => {
       if (typeof window.lmFetchWrapper === "function" && getCookie("userinfo") && getCookie("access_token")) {
