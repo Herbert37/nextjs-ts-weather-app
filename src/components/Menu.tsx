@@ -35,12 +35,12 @@ export default function Menu() {
     };
 
     if (typeof window === "undefined") return;
-    console.log("Esperando a lmFetchWrapper...");
+    console.log("Verificando sesion...");
 
     const waitForLogin = setInterval(() => {
       if(getCookie("userinfo") && getCookie("access_token")){
         if (typeof window.lmFetchWrapper === "function") {
-          console.log("lmFetchWrapper detectado.");
+          console.log("Sesion detectada, preparando lmFetchWrapper.");
           setShowLoginButton(false);
           setShowLogoutButton(true);
           clearInterval(waitForLogin);
