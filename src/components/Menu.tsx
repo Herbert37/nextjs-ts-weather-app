@@ -38,14 +38,19 @@ export default function Menu() {
     console.log("Esperando a lmFetchWrapper...");
 
     const waitForLogin = setInterval(() => {
-      if (typeof window.lmFetchWrapper === "function" && getCookie("userinfo") && getCookie("access_token")) {
-        console.log("lmFetchWrapper detectado.");
-        setShowLoginButton(false);
-        setShowLogoutButton(true);
-        clearInterval(waitForLogin);
-        getBalance();
+      if(getCookie("userinfo") && getCookie("access_token")){
+        if (typeof window.lmFetchWrapper === "function") {
+          console.log("lmFetchWrapper detectado.");
+          setShowLoginButton(false);
+          setShowLogoutButton(true);
+          clearInterval(waitForLogin);
+          getBalance();
+        } else {
+          console.log("lmFetchWrapper aún no disponible...");
+        }
       } else {
-        console.log("lmFetchWrapper aún no disponible...");
+        setShowLoginButton(true);
+        setShowLogoutButton(false);
       }
     }, 100);
 
