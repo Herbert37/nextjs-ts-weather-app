@@ -59,7 +59,7 @@ export default function Menu() {
   }, []);
 
   const handleLogin = () => {
-    window.lmLogin?.({
+    window.lmLogin?.(false, {
       onSuccess: async () => {
         await getBalance();
       },

@@ -6,7 +6,7 @@ interface LoginOptions {
 export {};
 declare global {
   interface Window {
-    lmLogin?: (options: LoginOptions) => void;
+    lmLogin?: (isPopup: boolean, options: LoginOptions) => void;
     lmCompleteLogin?: () => void;
     lmLogout?: () => void;
     lmFetchWrapper?: (wrapperID: string) => Promise<Response>;

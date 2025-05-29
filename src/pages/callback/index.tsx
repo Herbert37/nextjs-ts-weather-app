@@ -5,6 +5,16 @@ const Callback: React.FC = () => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    
+    if (window.opener) {
+      window.opener.postMessage(
+        { type: "lm-login-redirect", url: window.location.href }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     console.log("CallbackLoaded: esperando a lmCompleteLogin...");
 
     const waitForLogin = setInterval(() => {
