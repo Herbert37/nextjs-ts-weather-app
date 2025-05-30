@@ -3,15 +3,15 @@ import { Container, Grid, Typography, Paper } from '@mui/material';
 
 const Callback: React.FC = () => {
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // useEffect(() => {
+  //   if (typeof window === "undefined") return;
     
-    if (window.opener) {
-      window.opener.postMessage(
-        { type: "lm-login-redirect", url: window.location.href }
-      );
-    }
-  }, []);
+  //   if (window.opener) {
+  //     window.opener.postMessage(
+  //       { type: "lm-login-redirect", url: window.location.href }
+  //     );
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
