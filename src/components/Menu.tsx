@@ -81,12 +81,9 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
-      } else {
-        handleLogin();
       }
     } catch (error) {
       console.log({ getBalanceError: error });
-      handleLogin();
     }
   }
 
