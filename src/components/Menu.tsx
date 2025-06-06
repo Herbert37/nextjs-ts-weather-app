@@ -67,9 +67,7 @@ export default function Menu() {
   const handleLogin = () => {
     window.lmLogin?.(true, {
       onSuccess: async () => {
-        await getBalance();
-        await getEliteProgram();
-        await getMemberProfile();
+        await getWrappers();
       },
       onError: (error) => {
         alert('Login error.');
@@ -79,6 +77,12 @@ export default function Menu() {
   }
 
   const handleLogout = () => window.lmLogout?.();
+
+  async function getWrappers() {
+    getBalance();
+    getEliteProgram();
+    getMemberProfile();
+  }
 
   async function getBalance() {
     try {
