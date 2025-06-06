@@ -9,7 +9,13 @@ export default function Menu() {
   const [showLoginButton, setShowLoginButton] = useState<boolean>(false);
   const [showLogoutButton, setShowLogoutButton] = useState<boolean>(false);
   const [balance, setBalance] = useState(null);
+  const [lmNumber, setLmNumber] = useState<string>('');
+  const [statusElite, setStatusElite] = useState<string>('');
+  const [lmName, setLmName] = useState<string>('');
   const [showBalance, setShowBalance] = useState<boolean>(false);
+  const [showLmNumber, setShowLmNumber] = useState<boolean>(false);
+  const [showStatusElite, setShowStatusElite] = useState<boolean>(false);
+  const [showLmName, setShowLmName] = useState<boolean>(false);
 
   const appBarStyle: React.CSSProperties = {
     backgroundColor: scrollY > 100 ? '#121212' : 'rgba(0, 0, 0, 0.6)',
@@ -62,6 +68,8 @@ export default function Menu() {
     window.lmLogin?.(true, {
       onSuccess: async () => {
         await getBalance();
+        await getEliteProgram();
+        await getMemberProfile();
       },
       onError: (error) => {
         alert('Login error.');
@@ -83,7 +91,41 @@ export default function Menu() {
         setShowBalance(true);
       }
     } catch (error) {
-      console.log({ getBalanceError: error });
+      console.error({ getBalanceError: error });
+    }
+  }
+
+  async function getEliteProgram() {
+    try {
+      const response = await window.lmFetchWrapper?.('eliteProgram', { lang: 'en' });
+      if (response && response.ok) {
+        const data = await response.json();
+        if(data?.eliteStatus?.cenitStatus){
+          setStatusElite(data?.eliteStatus?.cenitStatus);
+          setShowStatusElite(true);
+        }
+      }
+    } catch (error) {
+      console.error({ getEliteProgramError: error });
+    }
+  }
+
+  async function getMemberProfile() {
+    try {
+      const response = await window.lmFetchWrapper?.('memberProfile');
+      if (response && response.ok) {
+        const data = await response.json();
+        if(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber){
+          setLmNumber(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber);
+          setShowLmNumber(true);
+        }
+        if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
+          setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
+          setShowLmName(true);
+        }
+      }
+    } catch (error) {
+      console.error({ getMemberProfileError: error });
     }
   }
 
@@ -91,9 +133,12 @@ export default function Menu() {
     <AppBar sx={appBarStyle} position="sticky">
       <Toolbar>
         <Container maxWidth="lg" sx={{ padding: '0rem !important' }}>
-          {showLoginButton && <Button onClick={() => handleLogin()}>Login</Button>}
+          {showLoginButton && <Button variant="outlined" color='secondary' onClick={() => handleLogin()}>Login</Button>}
+          {showLmName && <Button disabled color="inherit">Hello, {lmName} </Button>}
+          {showLmNumber && <Button disabled color="inherit">LM Number: {lmNumber} </Button>}
+          {showStatusElite && <Button disabled color="inherit">Status Elite: {statusElite} </Button>}
           {showBalance && <Button disabled color="inherit">Balance: {balance} miles</Button>}
-          {showLogoutButton && <Button onClick={() => handleLogout()}>Logout</Button>}
+          {showLogoutButton && <Button variant="outlined" color='secondary' onClick={() => handleLogout()}>Logout</Button>}
           <Button disabled color="inherit">Developer info: </Button>
           <IconButton
             sx={{
