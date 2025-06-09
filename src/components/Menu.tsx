@@ -88,6 +88,7 @@ export default function Menu() {
     try {
       const response = await window.lmFetchWrapper?.('lmBalance');
       if (response && response.ok) {
+        console.log({ getBalanceResponse: response});
         const data = await response.json();
         const lmSummary = data?.summarization?.find((item: { type: string; amount?: number }) => item.type === 'LM');
         const balance = lmSummary?.amount || 0;
@@ -103,6 +104,7 @@ export default function Menu() {
     try {
       const response = await window.lmFetchWrapper?.('eliteProgram', { lang: 'en' });
       if (response && response.ok) {
+        console.log({ getEliteProgramResponse: response});
         const data = await response.json();
         if(data?.eliteStatus?.cenitStatus){
           setStatusElite(data?.eliteStatus?.cenitStatus);
@@ -118,6 +120,7 @@ export default function Menu() {
     try {
       const response = await window.lmFetchWrapper?.('memberProfile');
       if (response && response.ok) {
+        console.log({ getMemberProfileResponse: response});
         const data = await response.json();
         if(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber){
           setLmNumber(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber);
