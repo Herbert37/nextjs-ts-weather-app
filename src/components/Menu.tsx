@@ -88,27 +88,10 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
-        getEliteProgram();
+        getMemberProfile();
       }
     } catch (error) {
       console.error({ getBalanceError: error });
-    }
-  }
-
-  async function getEliteProgram() {
-    try {
-      const response = await window.lmFetchWrapper?.('eliteProgram', { lang: 'en' });
-      if (response && response.ok) {
-        console.log({ getEliteProgramResponse: response});
-        const data = await response.json();
-        if(data?.eliteStatus?.cenitStatus){
-          setStatusElite(data?.eliteStatus?.cenitStatus);
-          setShowStatusElite(true);
-          getMemberProfile();
-        }
-      }
-    } catch (error) {
-      console.error({ getEliteProgramError: error });
     }
   }
 
@@ -125,10 +108,27 @@ export default function Menu() {
         if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
           setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
           setShowLmName(true);
+          getEliteProgram()
         }
       }
     } catch (error) {
       console.error({ getMemberProfileError: error });
+    }
+  }
+
+  async function getEliteProgram() {
+    try {
+      const response = await window.lmFetchWrapper?.('eliteProgram', { lang: 'en' });
+      if (response && response.ok) {
+        console.log({ getEliteProgramResponse: response});
+        const data = await response.json();
+        if(data?.eliteStatus?.cenitStatus){
+          setStatusElite(data?.eliteStatus?.cenitStatus);
+          setShowStatusElite(true);
+        }
+      }
+    } catch (error) {
+      console.error({ getEliteProgramError: error });
     }
   }
 
