@@ -67,7 +67,7 @@ export default function Menu() {
   const handleLogin = () => {
     window.lmLogin?.(true, {
       onSuccess: async () => {
-        await getWrappers();
+        await getBalance();
       },
       onError: (error) => {
         alert('Login error.');
@@ -77,12 +77,6 @@ export default function Menu() {
   }
 
   const handleLogout = () => window.lmLogout?.();
-
-  async function getWrappers() {
-    getBalance();
-    getEliteProgram();
-    getMemberProfile();
-  }
 
   async function getBalance() {
     try {
@@ -94,6 +88,7 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
+        getEliteProgram();
       }
     } catch (error) {
       console.error({ getBalanceError: error });
@@ -109,6 +104,7 @@ export default function Menu() {
         if(data?.eliteStatus?.cenitStatus){
           setStatusElite(data?.eliteStatus?.cenitStatus);
           setShowStatusElite(true);
+          getMemberProfile();
         }
       }
     } catch (error) {
