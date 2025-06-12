@@ -54,7 +54,7 @@ export default function Menu() {
         } else {
           console.log("lmFetchWrapper aún no disponible...");
         }
-      } else {
+      } else if (typeof window.lmLogin === "function") {
         setShowLoginButton(true);
         setShowLogoutButton(false);
       }
@@ -65,11 +65,9 @@ export default function Menu() {
   }, []);
 
   const handleLogin = () => {
-    window.lmLogin?.('eng', true, {
+    window.lmLogin?.('en', true, {
       onSuccess: async () => {
         await getBalance();
-        await getMemberProfile();
-        await getEliteProgram();
       },
       onError: (error) => {
         alert('Login error.');
@@ -90,6 +88,7 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
+        getMemberProfile();
       }
     } catch (error) {
       console.error({ getBalanceError: error });
@@ -109,6 +108,7 @@ export default function Menu() {
         if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
           setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
           setShowLmName(true);
+          getEliteProgram();
         }
       }
     } catch (error) {
