@@ -76,7 +76,14 @@ const Home: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-              <Grid container spacing={2} sx={{ pt: 2 }}>
+              <Grid 
+                container
+                spacing={2}
+                sx={{
+                pt: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
                 <Button disabled color="inherit">Developer info: </Button>
                 <IconButton
                   sx={{
