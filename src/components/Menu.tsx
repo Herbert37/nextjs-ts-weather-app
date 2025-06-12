@@ -65,9 +65,11 @@ export default function Menu() {
   }, []);
 
   const handleLogin = () => {
-    window.lmLogin?.('en', true, {
+    window.lmLogin?.('eng', true, {
       onSuccess: async () => {
         await getBalance();
+        await getMemberProfile();
+        await getEliteProgram();
       },
       onError: (error) => {
         alert('Login error.');
@@ -88,7 +90,6 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
-        getMemberProfile();
       }
     } catch (error) {
       console.error({ getBalanceError: error });
@@ -108,7 +109,6 @@ export default function Menu() {
         if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
           setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
           setShowLmName(true);
-          getEliteProgram()
         }
       }
     } catch (error) {
@@ -118,7 +118,7 @@ export default function Menu() {
 
   async function getEliteProgram() {
     try {
-      const response = await window.lmFetchWrapper?.('eliteProgram', { lang: 'en' });
+      const response = await window.lmFetchWrapper?.('eliteProgram');
       if (response && response.ok) {
         console.log({ getEliteProgramResponse: response});
         const data = await response.json();
