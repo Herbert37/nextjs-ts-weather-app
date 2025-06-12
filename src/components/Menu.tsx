@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import { AppBar, Button, Container, Toolbar } from '@mui/material';
 
 export default function Menu() {
   const [scrollY, setScrollY] = useState<number>(0); // Explicitly typed as number
@@ -137,48 +134,11 @@ export default function Menu() {
       <Toolbar>
         <Container maxWidth="lg" sx={{ padding: '0rem !important' }}>
           {showLoginButton && <Button variant="outlined" color='secondary' onClick={() => handleLogin()}>Login</Button>}
+          {showLogoutButton && <Button variant="outlined" color='secondary' onClick={() => handleLogout()}>Logout</Button>} 
           {showLmName && <Button disabled color="inherit">Hello, {lmName} </Button>}
           {showLmNumber && <Button disabled color="inherit">LM Number: {lmNumber} </Button>}
           {showStatusElite && <Button disabled color="inherit">Status Elite: {statusElite} </Button>}
-          {showBalance && <Button disabled color="inherit">Balance: {balance} miles</Button>}
-          {showLogoutButton && <Button variant="outlined" color='secondary' onClick={() => handleLogout()}>Logout</Button>}
-          <Button disabled color="inherit">Developer info: </Button>
-          <IconButton
-            sx={{
-              ml: '0.5rem',
-              mr: '1rem',
-              backgroundColor: 'rgb(0,0,0,0.3)'
-            }}
-            onClick={() => window.open('https://www.linkedin.com/in/herbert-ayala37/', '_blank')}
-            aria-label='LinkedIn'
-            size='small'
-            color='secondary'
-          >
-            <LinkedInIcon />
-          </IconButton>
-          <IconButton
-            sx={{
-              mr: '1rem',
-              backgroundColor: 'rgb(0,0,0,0.3)'
-            }}
-            onClick={() => window.open('https://github.com/Herbert37', '_blank')}
-            aria-label='GitHub'
-            size='small'
-            color='secondary'
-          >
-            <GitHubIcon />
-          </IconButton>
-          <IconButton
-            sx={{
-              backgroundColor: 'rgb(0,0,0,0.3)'
-            }}
-            onClick={() => window.open('https://www.instagram.com/herbert37_/', '_blank')}
-            aria-label='Instagram'
-            size='small'
-            color='secondary'
-          >
-            <InstagramIcon />
-          </IconButton>
+          {showBalance && <Button disabled color="inherit">Balance: {balance} miles</Button>}         
         </Container>
       </Toolbar>
     </AppBar>
