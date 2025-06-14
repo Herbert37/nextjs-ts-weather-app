@@ -62,7 +62,9 @@ export default function Menu() {
   }, []);
 
   const handleLogin = () => {
-    window.lmLogin?.('en', true, {
+    const loginLanguage = 'en';
+    const isPopupLogin = false;
+    window.lmLogin?.(loginLanguage, isPopupLogin, {
       onSuccess: async () => {
         await getBalance();
       },
