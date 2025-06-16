@@ -87,8 +87,8 @@ export default function Menu() {
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
-        getMemberProfile();
       }
+      getMemberProfile();
     } catch (error) {
       console.error({ getBalanceError: error });
     }
@@ -107,9 +107,9 @@ export default function Menu() {
         if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
           setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
           setShowLmName(true);
-          getEliteProgram();
         }
       }
+      getEliteProgram();
     } catch (error) {
       console.error({ getMemberProfileError: error });
     }
