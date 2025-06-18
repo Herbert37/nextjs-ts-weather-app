@@ -117,7 +117,7 @@ export default function Menu() {
 
   async function getEliteProgram() {
     try {
-      const response = await window.lmFetchWrapper?.('ElitePrograms');
+      const response = await window.lmFetchWrapper?.('eliteProgram');
       if (response && response.ok) {
         console.log({ getEliteProgramResponse: response});
         const data = await response.json();
