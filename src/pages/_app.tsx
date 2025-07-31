@@ -20,8 +20,8 @@ export default function MyApp(props: MyAppProps) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    //script.src = 'https://s3-eu-west-1.amazonaws.com/lifemileswebsite-s3bucket-41/lm_cms/images/EON/LOGIN/lm-login.umd.js?env=uat';
-    script.src = "/lm-login-popup.umd.js?env=uat";
+    script.src = "https://log-in.lifemiles.com/lm-login.umd.js?env=prd";
+    //script.src = "/lm-login-popup.umd.js?env=uat";
     script.async = true;
 
     script.onload = () => {
