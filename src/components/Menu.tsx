@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
-import { AppBar, Button, Container, Toolbar } from '@mui/material';
+import { useEffect, useState } from "react";
+import { AppBar, Button, Container, Toolbar } from "@mui/material";
 
 export default function Menu() {
   const [scrollY, setScrollY] = useState<number>(0); // Explicitly typed as number
   const [showLoginButton, setShowLoginButton] = useState<boolean>(false);
   const [showLogoutButton, setShowLogoutButton] = useState<boolean>(false);
   const [balance, setBalance] = useState(null);
-  const [lmNumber, setLmNumber] = useState<string>('');
-  const [statusElite, setStatusElite] = useState<string>('');
-  const [lmName, setLmName] = useState<string>('');
+  const [lmNumber, setLmNumber] = useState<string>("");
+  const [statusElite, setStatusElite] = useState<string>("");
+  const [lmName, setLmName] = useState<string>("");
   const [showBalance, setShowBalance] = useState<boolean>(false);
   const [showLmNumber, setShowLmNumber] = useState<boolean>(false);
   const [showStatusElite, setShowStatusElite] = useState<boolean>(false);
   const [showLmName, setShowLmName] = useState<boolean>(false);
 
   const appBarStyle: React.CSSProperties = {
-    backgroundColor: scrollY > 100 ? '#121212' : 'rgba(0, 0, 0, 0.6)',
-    transition: 'background-color 0.3s ease-in-out',
+    backgroundColor: scrollY > 100 ? "#121212" : "rgba(0, 0, 0, 0.6)",
+    transition: "background-color 0.3s ease-in-out",
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function Menu() {
     console.log("Verificando sesion...");
 
     const waitForLogin = setInterval(() => {
-      if(getCookie("userinfo") && getCookie("access_token")){
+      if (getCookie("userinfo") && getCookie("access_token")) {
         if (typeof window.lmFetchWrapper === "function") {
           console.log("Sesion detectada, preparando lmFetchWrapper.");
           setShowLoginButton(false);
@@ -62,28 +62,30 @@ export default function Menu() {
   }, []);
 
   const handleLogin = () => {
-    const loginLanguage = 'en';
-    const isPopupLogin = false;
+    const loginLanguage = "en";
+    const isPopupLogin = true;
     window.lmLogin?.(loginLanguage, isPopupLogin, {
       onSuccess: async () => {
         await getBalance();
       },
       onError: (error) => {
-        alert('Login error.');
-        console.log({LoginError: error});
-      }
+        alert("Login error.");
+        console.log({ LoginError: error });
+      },
     });
-  }
+  };
 
   const handleLogout = () => window.lmLogout?.();
 
   async function getBalance() {
     try {
-      const response = await window.lmFetchWrapper?.('lmBalance');
+      const response = await window.lmFetchWrapper?.("lmBalance");
       if (response && response.ok) {
-        console.log({ getBalanceResponse: response});
+        console.log({ getBalanceResponse: response });
         const data = await response.json();
-        const lmSummary = data?.summarization?.find((item: { type: string; amount?: number }) => item.type === 'LM');
+        const lmSummary = data?.summarization?.find(
+          (item: { type: string; amount?: number }) => item.type === "LM"
+        );
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
         setShowBalance(true);
@@ -96,16 +98,28 @@ export default function Menu() {
 
   async function getMemberProfile() {
     try {
-      const response = await window.lmFetchWrapper?.('memberProfile');
+      const response = await window.lmFetchWrapper?.("memberProfile");
       if (response && response.ok) {
-        console.log({ getMemberProfileResponse: response});
+        console.log({ getMemberProfileResponse: response });
         const data = await response.json();
-        if(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber){
-          setLmNumber(data?.memberProfileDetails?.memberAccount?.memberProfile?.membershipNumber);
+        if (
+          data?.memberProfileDetails?.memberAccount?.memberProfile
+            ?.membershipNumber
+        ) {
+          setLmNumber(
+            data?.memberProfileDetails?.memberAccount?.memberProfile
+              ?.membershipNumber
+          );
           setShowLmNumber(true);
         }
-        if(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName){
-          setLmName(data?.memberProfileDetails?.memberAccount?.memberProfile?.individualInfo?.givenName);
+        if (
+          data?.memberProfileDetails?.memberAccount?.memberProfile
+            ?.individualInfo?.givenName
+        ) {
+          setLmName(
+            data?.memberProfileDetails?.memberAccount?.memberProfile
+              ?.individualInfo?.givenName
+          );
           setShowLmName(true);
         }
       }
@@ -117,11 +131,11 @@ export default function Menu() {
 
   async function getEliteProgram() {
     try {
-      const response = await window.lmFetchWrapper?.('eliteProgram');
+      const response = await window.lmFetchWrapper?.("eliteProgram");
       if (response && response.ok) {
-        console.log({ getEliteProgramResponse: response});
+        console.log({ getEliteProgramResponse: response });
         const data = await response.json();
-        if(data?.eliteStatus?.cenitStatus){
+        if (data?.eliteStatus?.cenitStatus) {
           setStatusElite(data?.eliteStatus?.cenitStatus);
           setShowStatusElite(true);
         }
@@ -132,15 +146,47 @@ export default function Menu() {
   }
 
   return (
-    <AppBar sx={appBarStyle} position="sticky">
+    <AppBar sx={appBarStyle} position='sticky'>
       <Toolbar>
-        <Container maxWidth="lg" sx={{ padding: '0rem !important' }}>
-          {showLoginButton && <Button variant="outlined" color='secondary' onClick={() => handleLogin()}>Login</Button>}
-          {showLogoutButton && <Button variant="outlined" color='secondary' onClick={() => handleLogout()}>Logout</Button>} 
-          {showLmName && <Button disabled color="inherit">Hello, {lmName} </Button>}
-          {showLmNumber && <Button disabled color="inherit">LM Number: {lmNumber} </Button>}
-          {showStatusElite && <Button disabled color="inherit">Status Elite: {statusElite} </Button>}
-          {showBalance && <Button disabled color="inherit">Balance: {balance} miles</Button>}         
+        <Container maxWidth='lg' sx={{ padding: "0rem !important" }}>
+          {showLoginButton && (
+            <Button
+              variant='outlined'
+              color='secondary'
+              onClick={() => handleLogin()}
+            >
+              Login
+            </Button>
+          )}
+          {showLogoutButton && (
+            <Button
+              variant='outlined'
+              color='secondary'
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </Button>
+          )}
+          {showLmName && (
+            <Button disabled color='inherit'>
+              Hello, {lmName}{" "}
+            </Button>
+          )}
+          {showLmNumber && (
+            <Button disabled color='inherit'>
+              LM Number: {lmNumber}{" "}
+            </Button>
+          )}
+          {showStatusElite && (
+            <Button disabled color='inherit'>
+              Status Elite: {statusElite}{" "}
+            </Button>
+          )}
+          {showBalance && (
+            <Button disabled color='inherit'>
+              Balance: {balance} miles
+            </Button>
+          )}
         </Container>
       </Toolbar>
     </AppBar>
