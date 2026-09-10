@@ -20,8 +20,9 @@ export default function MyApp(props: MyAppProps) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://log-in.lifemiles.com/lm-login.umd.js?env=prd";
-    //script.src = "/lm-login-popup.umd.js?env=uat";
+    //script.src = "https://log-in.lifemiles.com/lm-login.umd.js?env=prd";
+    script.src =
+      "https://log-in-nprod.lifemiles.net/qa/lm-login.umd.js?env=uat";
     script.async = true;
 
     script.onload = () => {
@@ -42,7 +43,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
