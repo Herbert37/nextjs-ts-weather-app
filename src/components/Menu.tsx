@@ -30,9 +30,26 @@ export default function Menu() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    console.log("Esperando a lmSilentLogin...");
+
+    const waitForLogin = setInterval(async () => {
+      if (typeof window.lmSilentLogin === "function") {
+        console.log("Intentando silent login...");
+        const silentLoginResponse = await window.lmSilentLogin();
+        console.log("Silent login response:", silentLoginResponse);
+        clearInterval(waitForLogin);
+      }
+    }, 100);
+
+    // Cleanup
+    return () => clearInterval(waitForLogin);
+  }, []);
+
+  useEffect(() => {
     const getCookie = (name: string): string | null => {
       const match = document.cookie.match(
-        new RegExp("(^| )" + name + "=([^;]+)")
+        new RegExp("(^| )" + name + "=([^;]+)"),
       );
       return match ? decodeURIComponent(match[2]) : null;
     };
@@ -84,7 +101,7 @@ export default function Menu() {
         console.log({ getBalanceResponse: response });
         const data = await response.json();
         const lmSummary = data?.summarization?.find(
-          (item: { type: string; amount?: number }) => item.type === "LM"
+          (item: { type: string; amount?: number }) => item.type === "LM",
         );
         const balance = lmSummary?.amount || 0;
         setBalance(balance.toLocaleString());
@@ -108,7 +125,7 @@ export default function Menu() {
         ) {
           setLmNumber(
             data?.memberProfileDetails?.memberAccount?.memberProfile
-              ?.membershipNumber
+              ?.membershipNumber,
           );
           setShowLmNumber(true);
         }
@@ -118,7 +135,7 @@ export default function Menu() {
         ) {
           setLmName(
             data?.memberProfileDetails?.memberAccount?.memberProfile
-              ?.individualInfo?.givenName
+              ?.individualInfo?.givenName,
           );
           setShowLmName(true);
         }
@@ -146,13 +163,13 @@ export default function Menu() {
   }
 
   return (
-    <AppBar sx={appBarStyle} position='sticky'>
+    <AppBar sx={appBarStyle} position="sticky">
       <Toolbar>
-        <Container maxWidth='lg' sx={{ padding: "0rem !important" }}>
+        <Container maxWidth="lg" sx={{ padding: "0rem !important" }}>
           {showLoginButton && (
             <Button
-              variant='outlined'
-              color='secondary'
+              variant="outlined"
+              color="secondary"
               onClick={() => handleLogin()}
             >
               Login
@@ -160,30 +177,30 @@ export default function Menu() {
           )}
           {showLogoutButton && (
             <Button
-              variant='outlined'
-              color='secondary'
+              variant="outlined"
+              color="secondary"
               onClick={() => handleLogout()}
             >
               Logout
             </Button>
           )}
           {showLmName && (
-            <Button disabled color='inherit'>
+            <Button disabled color="inherit">
               Hello, {lmName}{" "}
             </Button>
           )}
           {showLmNumber && (
-            <Button disabled color='inherit'>
+            <Button disabled color="inherit">
               LM Number: {lmNumber}{" "}
             </Button>
           )}
           {showStatusElite && (
-            <Button disabled color='inherit'>
+            <Button disabled color="inherit">
               Status Elite: {statusElite}{" "}
             </Button>
           )}
           {showBalance && (
-            <Button disabled color='inherit'>
+            <Button disabled color="inherit">
               Balance: {balance} miles
             </Button>
           )}
