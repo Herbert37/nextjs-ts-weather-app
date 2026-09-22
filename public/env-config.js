@@ -19,6 +19,7 @@ window.__LM_LOGIN_CONFIG__ = {
   defaultParameters: {
     popupWidth: 800,
     popupHeight: 800,
+    silentLoginTimeout: 10_000,
     redirectAfterLogin: "https://h37-weather-app.vercel.app",
     redirectAfterLogout: "https://h37-weather-app.vercel.app",
     maxAllowedTravelerCompanion: 4,
