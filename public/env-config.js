@@ -27,7 +27,6 @@ window.__LM_LOGIN_CONFIG__ = {
   envCookies: {
     access_token: "dra3j",
     refresh_token: "rfhtkn",
-    id_token: "idtknhint",
     userinfo: "userInfo",
   },
   ALLOWED_DOMAINS_URL:
