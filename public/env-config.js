@@ -14,20 +14,22 @@ window.__LM_LOGIN_CONFIG__ = {
   application_ID: "lm-test-ti",
   allowed_debug_envs: ["devlocal", "dev", "qa", "uat"],
   allowedWrappers: ["ALL"],
-  popupWidth: 800,
-  popupHeight: 800,
   defaultParameters: {
     popupWidth: 800,
     popupHeight: 800,
-    silentLoginTimeout: 10_000,
+    silentLoginTimeout: 5_000,
     redirectAfterLogin: "https://h37-weather-app.vercel.app",
     redirectAfterLogout: "https://h37-weather-app.vercel.app",
     maxAllowedTravelerCompanion: 4,
     flowId: "ETBE",
     clubWorldCountries: ["wr", "us"],
   },
-  redirectAfterLogin: "https://h37-weather-app.vercel.app",
-  redirectAfterLogout: "https://h37-weather-app.vercel.app",
+  envCookies: {
+    access_token: "dra3j",
+    refresh_token: "rfhtkn",
+    id_token: "idtknhint",
+    userinfo: "userInfo",
+  },
   ALLOWED_DOMAINS_URL:
     "https://www.uat-lifemiles.net/cms/eon-domain/eonDomain.json",
   CONFIG_BASE_URL:

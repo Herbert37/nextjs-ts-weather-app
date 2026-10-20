@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
+import { defaultCookies, envCookies } from "../utils/cookies";
 
 export default function Menu() {
   const [scrollY, setScrollY] = useState<number>(0); // Explicitly typed as number
@@ -29,7 +30,7 @@ export default function Menu() {
     };
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (typeof window === "undefined") return;
     console.log("Esperando a lmSilentLogin...");
 
@@ -44,10 +45,13 @@ export default function Menu() {
 
     // Cleanup
     return () => clearInterval(waitForLogin);
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     const getCookie = (name: string): string | null => {
+      name =
+        envCookies[name as keyof typeof envCookies] ||
+        defaultCookies[name as keyof typeof defaultCookies];
       const match = document.cookie.match(
         new RegExp("(^| )" + name + "=([^;]+)"),
       );
