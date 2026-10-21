@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import { defaultCookies, envCookies } from "../utils/cookies";
 
@@ -14,11 +14,48 @@ export default function Menu() {
   const [showLmNumber, setShowLmNumber] = useState<boolean>(false);
   const [showStatusElite, setShowStatusElite] = useState<boolean>(false);
   const [showLmName, setShowLmName] = useState<boolean>(false);
+  const sessionHandled = useRef(false);
 
   const appBarStyle: React.CSSProperties = {
     backgroundColor: scrollY > 100 ? "#121212" : "rgba(0, 0, 0, 0.6)",
     transition: "background-color 0.3s ease-in-out",
   };
+
+  function getCookie(name: string): string | null {
+    const cookieNames = [
+      envCookies[name as keyof typeof envCookies],
+      defaultCookies[name as keyof typeof defaultCookies],
+    ].filter(Boolean);
+
+    for (const cookie of document.cookie.split(";")) {
+      const separatorIndex = cookie.indexOf("=");
+      if (separatorIndex === -1) continue;
+
+      const cookieName = cookie.slice(0, separatorIndex).trim();
+      if (cookieNames.includes(cookieName)) {
+        return decodeURIComponent(cookie.slice(separatorIndex + 1));
+      }
+    }
+
+    return null;
+  }
+
+  async function syncSession(): Promise<boolean> {
+    if (
+      !sessionHandled.current &&
+      getCookie("userinfo") &&
+      getCookie("access_token") &&
+      typeof window.lmFetchWrapper === "function"
+    ) {
+      console.log("Sesion detectada, preparando lmFetchWrapper.");
+      sessionHandled.current = true;
+      setShowLoginButton(false);
+      setShowLogoutButton(true);
+      await getBalance();
+    }
+
+    return sessionHandled.current;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,30 +85,12 @@ export default function Menu() {
   }, []);*/
 
   useEffect(() => {
-    const getCookie = (name: string): string | null => {
-      name =
-        envCookies[name as keyof typeof envCookies] ||
-        defaultCookies[name as keyof typeof defaultCookies];
-      const match = document.cookie.match(
-        new RegExp("(^| )" + name + "=([^;]+)"),
-      );
-      return match ? decodeURIComponent(match[2]) : null;
-    };
-
     if (typeof window === "undefined") return;
     console.log("Verificando sesion...");
 
-    const waitForLogin = setInterval(() => {
-      if (getCookie("userinfo") && getCookie("access_token")) {
-        if (typeof window.lmFetchWrapper === "function") {
-          console.log("Sesion detectada, preparando lmFetchWrapper.");
-          setShowLoginButton(false);
-          setShowLogoutButton(true);
-          clearInterval(waitForLogin);
-          getBalance();
-        } else {
-          console.log("lmFetchWrapper aún no disponible...");
-        }
+    const waitForLogin = setInterval(async () => {
+      if (await syncSession()) {
+        clearInterval(waitForLogin);
       } else if (typeof window.lmLogin === "function") {
         setShowLoginButton(true);
         setShowLogoutButton(false);
@@ -87,7 +106,7 @@ export default function Menu() {
     const isPopupLogin = true;
     window.lmLogin?.(loginLanguage, isPopupLogin, {
       onSuccess: async () => {
-        await getBalance();
+        await syncSession();
       },
       onError: (error) => {
         alert("Login error.");
