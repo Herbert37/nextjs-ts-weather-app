@@ -3,6 +3,12 @@ interface LoginOptions {
   onError: (error: unknown) => void;
 }
 
+interface LoginV2Params {
+  loginLanguage: string;
+  isPopupLogin: boolean;
+  customRedirectUri?: string;
+}
+
 export {};
 declare global {
   interface Window {
@@ -11,6 +17,7 @@ declare global {
       isPopupLogin: boolean,
       options: LoginOptions,
     ) => void;
+    lmLoginV2?: (params: LoginV2Params, options: LoginOptions) => void;
     lmSilentLogin?: () => Promise<Response>;
     lmCompleteLogin?: () => void;
     lmLogout?: () => void;

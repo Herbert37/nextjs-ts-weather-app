@@ -104,15 +104,22 @@ export default function Menu() {
   const handleLogin = () => {
     const loginLanguage = "en";
     const isPopupLogin = true;
-    window.lmLogin?.(loginLanguage, isPopupLogin, {
-      onSuccess: async () => {
-        await syncSession();
+    window.lmLoginV2?.(
+      {
+        loginLanguage,
+        isPopupLogin,
+        customRedirectUri: `${window.location.origin}/custom-callback`,
       },
-      onError: (error) => {
-        alert("Login error.");
-        console.log({ LoginError: error });
+      {
+        onSuccess: async () => {
+          await syncSession();
+        },
+        onError: (error) => {
+          alert("Login error.");
+          console.log({ LoginError: error });
+        },
       },
-    });
+    );
   };
 
   const handleLogout = () => window.lmLogout?.();
