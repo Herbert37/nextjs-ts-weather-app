@@ -108,7 +108,7 @@ export default function Menu() {
       {
         loginLanguage,
         isPopupLogin,
-        customRedirectUri: `${window.location.origin}/custom-callback`,
+        //customRedirectUri: `${window.location.origin}/custom-callback`,
       },
       {
         onSuccess: async () => {
