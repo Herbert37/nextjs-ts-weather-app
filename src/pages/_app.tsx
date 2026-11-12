@@ -22,7 +22,7 @@ export default function MyApp(props: MyAppProps) {
     const script = document.createElement("script");
     //script.src = "https://log-in.lifemiles.com/lm-login.umd.js?env=prd";
     script.src =
-      "https://log-in-nprod.lifemiles.net/uat/lm-login.umd.js?env=uat";
+      "https://log-in-nprod.lifemiles.net/qa/lm-login.umd.js?env=uat";
     // script.src = "../lm-login.umd.js?env=devLocal";
     script.async = true;
 

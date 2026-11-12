@@ -91,7 +91,7 @@ export default function Menu() {
     const waitForLogin = setInterval(async () => {
       if (await syncSession()) {
         clearInterval(waitForLogin);
-      } else if (typeof window.lmLogin === "function") {
+      } else if (typeof window.lmLoginV2 === "function") {
         setShowLoginButton(true);
         setShowLogoutButton(false);
       }
